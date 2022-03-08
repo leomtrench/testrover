@@ -1,6 +1,9 @@
 const fs = require('fs');
 const readline = require('readline');
 
+const RoverController = require('./controller/RoverController');
+const InputCommand = require('./dto/InputCommand');
+
 async function* readFileByLine() {
   const fileStream = fs.createReadStream('./input.txt');
   
@@ -10,14 +13,15 @@ async function* readFileByLine() {
   });
   let lineNumber = 0;
   for await (const lineValue of rl) {
-    yield { lineNumber: lineNumber++, lineValue: lineValue };
+    yield new InputCommand(lineNumber++, lineValue);
   }
 }
 
 let main = ()=>{
   (async function() {
-    for await (const line of readFileByLine()) {
-      console.log(`Line from file: ${line.lineNumber}`);
+    let roverController = new RoverController();
+    for await (const inputCommand of readFileByLine()) {
+      roverController.processCommand(inputCommand);
     }
   })();
 };
