@@ -23,6 +23,9 @@ let main = ()=>{
     for await (const inputCommand of readFileByLine()) {
       roverController.processCommand(inputCommand);
     }
+    for await (const roverPosition of roverController.roverPositions) {
+      console.log(roverPosition);
+    }
   })();
 };
 

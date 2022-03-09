@@ -1,10 +1,11 @@
 class Rover {
     orientations = ['N','E','S','W'];
 
-    constructor(x,y,orientation){
+    constructor(x,y,orientation, world){
         this.x = x;
         this.y = y;
         this.orientation = orientation;
+        this.world = world;
     }
 
     spin(spinValue){
@@ -20,20 +21,34 @@ class Rover {
     }
 
     walkForward(){
+        let currentX = this.x;
+        let currentY = this.y;
         switch(this.orientation){
             case 'N':
-                this.y++;
+                currentY++;
                 break;
             case 'E':
-                this.x++;
+                currentX++;
                 break;
             case 'S':
-                this.y--;
+                currentY--;
                 break;
             case 'W':
-                this.x--;
+                currentX--;
                 break;
         }
+
+        if(this.hasGround(currentX,currentY)){
+            this.y = currentY;
+            this.x = currentX;
+        }
+    }
+
+    hasGround(positionX, positionY){
+        return !(this.world.x < positionX
+            || this.world.y < positionY
+            || positionX < 0
+            || positionY < 0);
     }
 
     control(commands){
