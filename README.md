@@ -21,5 +21,5 @@ node app.js
 
 Para executar os testes, utilizando JEST no caso, execute:
 cd .\tests\
-npm install
+npm install --save-dev
 npm test
